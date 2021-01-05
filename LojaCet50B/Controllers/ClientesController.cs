@@ -7,22 +7,22 @@ using System.Threading.Tasks;
 
 namespace LojaCet50B.Controllers
 {
-    public class ProdutosController : Controller
+    public class ClientesController : Controller
     {
         private readonly DataContext _context;
 
-        public ProdutosController(DataContext context)
+        public ClientesController(DataContext context)
         {
             _context = context;
         }
 
-        // GET: Produtos
+        // GET: Clientes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Produtos.ToListAsync());
+            return View(await _context.Clientes.ToListAsync());
         }
 
-        // GET: Produtos/Details/5
+        // GET: Clientes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -30,39 +30,39 @@ namespace LojaCet50B.Controllers
                 return NotFound();
             }
 
-            var produto = await _context.Produtos
+            var cliente = await _context.Clientes
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (produto == null)
+            if (cliente == null)
             {
                 return NotFound();
             }
 
-            return View(produto);
+            return View(cliente);
         }
 
-        // GET: Produtos/Create
+        // GET: Clientes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Produtos/Create
+        // POST: Clientes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Preco,UrlDaImagem,UltimaCompra,UltimaVenda,Disponivel,Stock")] Produto produto)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Apelido,DataNascimento,Nif,Telefone,Residencia")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(produto);
+                _context.Add(cliente);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(produto);
+            return View(cliente);
         }
 
-        // GET: Produtos/Edit/5
+        // GET: Clientes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -70,22 +70,22 @@ namespace LojaCet50B.Controllers
                 return NotFound();
             }
 
-            var produto = await _context.Produtos.FindAsync(id);
-            if (produto == null)
+            var cliente = await _context.Clientes.FindAsync(id);
+            if (cliente == null)
             {
                 return NotFound();
             }
-            return View(produto);
+            return View(cliente);
         }
 
-        // POST: Produtos/Edit/5
+        // POST: Clientes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Preco,UrlDaImagem,UltimaCompra,UltimaVenda,Disponivel,Stock")] Produto produto)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Apelido,DataNascimento,Nif,Telefone,Residencia")] Cliente cliente)
         {
-            if (id != produto.Id)
+            if (id != cliente.Id)
             {
                 return NotFound();
             }
@@ -94,12 +94,12 @@ namespace LojaCet50B.Controllers
             {
                 try
                 {
-                    _context.Update(produto);
+                    _context.Update(cliente);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProdutoExists(produto.Id))
+                    if (!ClienteExists(cliente.Id))
                     {
                         return NotFound();
                     }
@@ -110,10 +110,10 @@ namespace LojaCet50B.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(produto);
+            return View(cliente);
         }
 
-        // GET: Produtos/Delete/5
+        // GET: Clientes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -121,30 +121,30 @@ namespace LojaCet50B.Controllers
                 return NotFound();
             }
 
-            var produto = await _context.Produtos
+            var cliente = await _context.Clientes
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (produto == null)
+            if (cliente == null)
             {
                 return NotFound();
             }
 
-            return View(produto);
+            return View(cliente);
         }
 
-        // POST: Produtos/Delete/5
+        // POST: Clientes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var produto = await _context.Produtos.FindAsync(id);
-            _context.Produtos.Remove(produto);
+            var cliente = await _context.Clientes.FindAsync(id);
+            _context.Clientes.Remove(cliente);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProdutoExists(int id)
+        private bool ClienteExists(int id)
         {
-            return _context.Produtos.Any(e => e.Id == id);
+            return _context.Clientes.Any(e => e.Id == id);
         }
     }
 }
